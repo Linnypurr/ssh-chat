@@ -275,9 +275,9 @@ func InitCommands(c *Commands) {
 	})
 
 	c.Add(Command{
-		Prefix:		"/color",
+		Prefix: "/color",
 		PrefixHelp: "COLOR",
-		Help:       "Options: red, green, blue, pink, yellow, orange, purple.",
+		Help: "Options: red, green, blue, pink, yellow, orange, purple.",
 		Handler: func (room *Room, msg message.CommandMsg) error  {
 				var colorArray []int
 				u := msg.From()
@@ -295,7 +295,6 @@ func InitCommands(c *Commands) {
 				if !ok {
 					return errors.New("failed to find member")
 				}
-
 				u.SetNewColorChoice(u.ID(), colorArray[randIdx])
 				colorString := SanitizeName(args[0])
 				room.ReColor(u.ID(), colorString, member)

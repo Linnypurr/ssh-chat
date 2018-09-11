@@ -167,7 +167,6 @@ var Themes []Theme
 // Default theme to use
 var DefaultTheme *Theme
 
-
 func allColors256() *Palette {
 	colors := []uint8{}
 	var i uint8
