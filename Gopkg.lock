@@ -3,43 +3,77 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:7b57340424b5e97eb0e4cbd9e316175303a2cfcc9f0c50526cc4d91ecee89eef"
   name = "github.com/alexcesaro/log"
-  packages = [".","golog"]
+  packages = [
+    ".",
+    "golog",
+  ]
+  pruneopts = ""
   revision = "61e686294e58a8698a9e1091268bb4ac1116bd5e"
 
 [[projects]]
   branch = "master"
+  digest = "1:f81c8d7354cc0c6340f2f7a48724ee6c2b3db3e918ecd441c985b4d2d97dd3e7"
   name = "github.com/howeyc/gopass"
   packages = ["."]
+  pruneopts = ""
   revision = "bf9dde6d0d2c004a008c27aaee91170c786f6db8"
 
 [[projects]]
+  digest = "1:550e69376be9a028e7a039090d635e949134873c651a74a95a8896552db372b8"
   name = "github.com/jessevdk/go-flags"
   packages = ["."]
+  pruneopts = ""
   revision = "96dc06278ce32a0e9d957d590bb987c81ee66407"
   version = "v1.3.0"
 
 [[projects]]
   branch = "master"
+  digest = "1:749ab0b6301ccfc3a9f64cfc6b97446bbdf842e732002ea9fc5680e9d1800773"
   name = "github.com/shazow/rateio"
   packages = ["."]
+  pruneopts = ""
   revision = "e8e00881e5c12090412414be41c04ca9c8a71106"
 
 [[projects]]
   branch = "master"
+  digest = "1:35de4aebb027ca9b5e1b052329eba7e287c3da11d779d7f38623a49f8dc2d7f6"
   name = "golang.org/x/crypto"
-  packages = ["curve25519","ed25519","ed25519/internal/edwards25519","internal/chacha20","poly1305","ssh","ssh/terminal"]
+  packages = [
+    "curve25519",
+    "ed25519",
+    "ed25519/internal/edwards25519",
+    "internal/chacha20",
+    "poly1305",
+    "ssh",
+    "ssh/terminal",
+  ]
+  pruneopts = ""
   revision = "ee41a25c63fb5b74abf2213abb6dee3751e6ac4a"
 
 [[projects]]
   branch = "master"
+  digest = "1:aba25123b0b02601b134eaf08bd84afe8e12cab70e43770e7b38d8eef8f1d93e"
   name = "golang.org/x/sys"
-  packages = ["unix","windows"]
+  packages = [
+    "unix",
+    "windows",
+  ]
+  pruneopts = ""
   revision = "2c42eef0765b9837fbdab12011af7830f55f88f0"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "48a7f7477a28e61efdd4256fe7f426bfaf93df53b5731e905088c0e9c2f10d3b"
+  input-imports = [
+    "github.com/alexcesaro/log",
+    "github.com/alexcesaro/log/golog",
+    "github.com/howeyc/gopass",
+    "github.com/jessevdk/go-flags",
+    "github.com/shazow/rateio",
+    "golang.org/x/crypto/ssh",
+    "golang.org/x/crypto/ssh/terminal",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1

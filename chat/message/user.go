@@ -24,7 +24,7 @@ var ErrUserClosed = errors.New("user closed")
 type User struct {
 	Identifier
 	Ignored  *set.Set
-	colorIdx int
+	ColorIdx int
 	joined   time.Time
 	msg      chan Message
 	done     chan struct{}
@@ -48,6 +48,7 @@ func NewUser(identity Identifier) *User {
 		Ignored:    set.New(),
 	}
 	u.setColorIdx(rand.Int())
+	logger.Printf("On create: %v", u.ColorIdx)
 
 	return &u
 }
@@ -91,10 +92,16 @@ func (u *User) SetReplyTo(user *User) {
 	u.replyTo = user
 }
 
-// setColorIdx will set the colorIdx to a specific value, primarily used for
+//Same as SetID but with predeterminded color index
+func (u *User) SetNewColorChoice(id string, idx int) {
+	u.Identifier.SetID(id)
+	u.setColorIdx(idx)
+}
+
+// setColorIdx will set the ColorIdx to a specific value, primarily used for
 // testing.
 func (u *User) setColorIdx(idx int) {
-	u.colorIdx = idx
+	u.ColorIdx = idx
 }
 
 // Disconnect user, stop accepting messages

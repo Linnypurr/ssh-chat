@@ -165,9 +165,10 @@ func (h *Host) Connect(term *sshd.Terminal) {
 		h.HandleMsg(m)
 
 		cmd := m.Command()
-		if cmd == "/nick" || cmd == "/theme" {
+		if cmd == "/nick" || cmd == "/theme" || cmd == "/color" {
 			// Hijack /nick command to update terminal synchronously. Wouldn't
 			// work if we use h.room.Send(m) above.
+			// added color to cmd
 			//
 			// FIXME: This is hacky, how do we improve the API to allow for
 			// this? Chat module shouldn't know about terminals.

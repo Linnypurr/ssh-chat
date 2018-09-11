@@ -132,7 +132,7 @@ func (t Theme) ColorName(u *User) string {
 		return u.Name()
 	}
 
-	return t.names.Get(u.colorIdx).Format(u.Name())
+	return t.names.Get(u.ColorIdx).Format(u.Name())
 }
 
 // Colorize the PM string
@@ -166,6 +166,7 @@ var Themes []Theme
 
 // Default theme to use
 var DefaultTheme *Theme
+
 
 func allColors256() *Palette {
 	colors := []uint8{}

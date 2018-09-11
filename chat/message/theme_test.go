@@ -52,7 +52,7 @@ func TestTheme(t *testing.T) {
 	}
 
 	u := NewUser(SimpleID("foo"))
-	u.colorIdx = 4
+	u.ColorIdx = 4
 	actual = colorTheme.ColorName(u)
 	expected = "\033[38;05;5mfoo\033[0m"
 	if actual != expected {

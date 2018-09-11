@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"math/rand"
 
 	"github.com/shazow/ssh-chat/chat/message"
 	"github.com/shazow/ssh-chat/set"
@@ -24,6 +25,21 @@ var ErrMissingArg = errors.New("missing argument")
 
 // The error returned when a command is added without a prefix.
 var ErrMissingPrefix = errors.New("command missing prefix")
+
+//ColorMap to give user name a specific shade of color.
+var ColorMap = map[string][]int {
+	"blue" : []int{3, 5, 11, 12, 13, 14, 17, 18, 19, 20, 21, 24, 25, 26, 27, 31, 32,
+		33, 38, 39, 45, 51, 63, 67, 68, 69, 73, 74, 75, 81, 105, 111, 117, 153,
+	  159, 189, 227},
+	"green" : []int{22, 23, 28, 29, 30, 34, 35, 36, 37, 40, 41, 42, 43,
+		46, 64, 65, 70, 71, 77, 78, 79, 108, 112, 113, 114, 115, 119, 149, 150},
+	"red" : []int{6, 126, 160, 161, 167, 190, 196, 197, 204, 230},
+	"yellow" : []int{136, 178, 179, 184, 185, 186, 187, 220, 221, 222, 228},
+	"purple" : []int{10, 13, 49, 53, 54, 55, 56, 83, 85, 90, 91, 92, 93, 96, 97, 98,
+		123, 127, 128, 129, 135, 140, 141, 164, 165, 171, 176, 177, 183, 201, 219},
+	"orange" : []int{124, 166, 172, 173, 202, 203, 208, 209, 210, 214},
+	"pink" : []int{162, 168, 169, 198, 199, 205, 206, 211, 212, 218},
+}
 
 // Command is a definition of a handler for a command.
 type Command struct {
@@ -255,6 +271,35 @@ func InitCommands(c *Commands) {
 			}
 			room.Send(message.NewSystemMsg(body, u))
 			return nil
+		},
+	})
+
+	c.Add(Command{
+		Prefix:		"/color",
+		PrefixHelp: "COLOR",
+		Help:       "Options: red, green, blue, pink, yellow, orange, purple.",
+		Handler: func (room *Room, msg message.CommandMsg) error  {
+				var colorArray []int
+				u := msg.From()
+				args := msg.Args()
+				if len(args) != 1 {
+					return ErrMissingArg
+				}
+				color := args[0]
+				colorArray, prs := ColorMap[color]
+				if !prs {
+					return errors.New("Not a valid color option.")
+				}
+				randIdx := rand.Intn(len(colorArray))
+				member, ok := room.MemberByID(u.ID())
+				if !ok {
+					return errors.New("failed to find member")
+				}
+
+				u.SetNewColorChoice(u.ID(), colorArray[randIdx])
+				colorString := SanitizeName(args[0])
+				room.ReColor(u.ID(), colorString, member)
+				return nil
 		},
 	})
 
