@@ -132,7 +132,7 @@ func (t Theme) ColorName(u *User) string {
 		return u.Name()
 	}
 
-	return t.names.Get(u.ColorIdx).Format(u.Name())
+	return t.names.Get(u.colorIdx).Format(u.Name())
 }
 
 // Colorize the PM string
