@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"strings"
 	"math/rand"
+	"strconv"
 
 	"github.com/shazow/ssh-chat/chat/message"
 	"github.com/shazow/ssh-chat/set"
@@ -277,27 +278,35 @@ func InitCommands(c *Commands) {
 	c.Add(Command{
 		Prefix: "/color",
 		PrefixHelp: "COLOR",
-		Help: "Options: red, green, blue, pink, yellow, orange, purple.",
+		Help: "Options: red, green, blue, pink, yellow, orange, purple, or a integer between 0-255.",
 		Handler: func (room *Room, msg message.CommandMsg) error  {
-				var colorArray []int
 				u := msg.From()
 				args := msg.Args()
 				if len(args) != 1 {
 					return ErrMissingArg
 				}
 				color := args[0]
-				colorArray, prs := ColorMap[color]
-				if !prs {
-					return errors.New("Not a valid color option.")
-				}
-				randIdx := rand.Intn(len(colorArray))
+				colorString := SanitizeName(args[0])
+				num, err := strconv.Atoi(colorString)
 				member, ok := room.MemberByID(u.ID())
 				if !ok {
 					return errors.New("failed to find member")
 				}
-				u.SetNewColorChoice(u.ID(), colorArray[randIdx])
-				colorString := SanitizeName(args[0])
-				room.ReColor(u.ID(), colorString, member)
+				if err == nil {
+					if num > 255 || num < 0 {
+						return errors.New("Outside of range: 0-255.")
+					}
+					u.SetNewColorChoice(u.ID(), num)
+					room.ReColor(u.ID(), colorString, member)
+				} else {
+					colorArray, prs := ColorMap[color]
+					if !prs {
+						return errors.New("Not a valid color option.")
+					}
+					randIdx := rand.Intn(len(colorArray))
+					u.SetNewColorChoice(u.ID(), colorArray[randIdx])
+					room.ReColor(u.ID(), colorString, member)
+				}
 				return nil
 		},
 	})
