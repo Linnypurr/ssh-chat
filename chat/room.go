@@ -185,6 +185,20 @@ func (r *Room) Rename(oldID string, u message.Identifier) error {
 	return nil
 }
 
+//Same as Rename but only announces changed color.
+func (r *Room) ReColor(oldID string, color string, u message.Identifier) error {
+	if u.ID() == "" {
+		return ErrInvalidName
+	}
+	err := r.Members.Replace(oldID, set.Itemize(u.ID(), u))
+	if err != nil {
+		return err
+	}
+	s := fmt.Sprintf("%s is now %s.", oldID, color)
+	r.Send(message.NewAnnounceMsg(s))
+	return nil
+}
+
 // Member returns a corresponding Member object to a User if the Member is
 // present in this room.
 func (r *Room) Member(u *message.User) (*Member, bool) {

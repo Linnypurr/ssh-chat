@@ -47,8 +47,7 @@ func NewUser(identity Identifier) *User {
 		done:       make(chan struct{}),
 		Ignored:    set.New(),
 	}
-	u.setColorIdx(rand.Int())
-
+	u.setcolorIdx(rand.Int())
 	return &u
 }
 
@@ -74,7 +73,7 @@ func (u *User) SetConfig(cfg UserConfig) {
 // Rename the user with a new Identifier.
 func (u *User) SetID(id string) {
 	u.Identifier.SetID(id)
-	u.setColorIdx(rand.Int())
+	u.setcolorIdx(rand.Int())
 }
 
 // ReplyTo returns the last user that messaged this user.
@@ -91,9 +90,15 @@ func (u *User) SetReplyTo(user *User) {
 	u.replyTo = user
 }
 
-// setColorIdx will set the colorIdx to a specific value, primarily used for
+//Same as SetID but with predeterminded color index
+func (u *User) SetNewColorChoice(id string, idx int) {
+	u.Identifier.SetID(id)
+	u.setcolorIdx(idx)
+}
+
+// setcolorIdx will set the colorIdx to a specific value, primarily used for
 // testing.
-func (u *User) setColorIdx(idx int) {
+func (u *User) setcolorIdx(idx int) {
 	u.colorIdx = idx
 }
 
